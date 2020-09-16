@@ -12,7 +12,7 @@ class Routers {
     fun routes(publicationHandler: PublicationHandler) =
         coRouter {
             GET("/publications/{publicationId}", publicationHandler::getById)
-            GET("/publications/")
+            GET("/publications/", queryParam("a") { it == "a" }, publicationHandler::getById)
             POST("/publications", publicationHandler::savePublication)
             //POST("/publications/{publicationId}/activities", publicationHandler::saveActivity)
         }
