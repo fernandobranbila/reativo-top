@@ -3,16 +3,17 @@ package br.com.sas.reativotop.publication.service
 import br.com.sas.reativotop.publication.model.Activity
 import br.com.sas.reativotop.publication.model.Meet
 import br.com.sas.reativotop.publication.model.Publication
-import kotlinx.coroutines.*
+import br.com.sas.reativotop.publication.repository.PublicationRepository
+import kotlinx.coroutines.reactive.awaitFirst
 import org.springframework.stereotype.Component
 
 @Component
-class PublicationService {
+class PublicationService (private val publicationRepository: PublicationRepository){
+
+
 
     suspend fun save(publication: Publication): Publication {
-        val publicationResult = savePublication(publication)
-        val activity = activity(publicationResult.id!!, publicationResult.activity)
-        return publicationResult.copy(activity = activity)
+        return publicationRepository.save(publication).awaitFirst()
     }
 
 

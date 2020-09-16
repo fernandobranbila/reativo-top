@@ -22,10 +22,7 @@ class PublicationHandler(private val publicationService: PublicationService,
         val publication = GlobalScope.async {
             publicationService.save(body)
         }
-        val findMeet = GlobalScope.async {
-            publicationService.findMeetByTitlePublication(body.title)
-        }
-        return ServerResponse.created(URI.create("")).bodyValueAndAwait(Pair(publication.await(), findMeet.await()))
+        return ServerResponse.created(URI.create("")).bodyValueAndAwait(publication.await())
     }
 /*
     suspend fun saveActivity(request: ServerRequest): ServerResponse {
