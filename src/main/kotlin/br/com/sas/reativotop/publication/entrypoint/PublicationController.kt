@@ -24,7 +24,7 @@ class PublicationController(private val publicationService: PublicationService) 
             is Ok -> ResponseEntity.ok(result.value)
             is Err -> { //
                 when(result.error.message) {
-                    "BadRequest" -> ResponseEntity.badRequest().build()
+                    "BadRequest" -> ResponseEntity.badRequest().build() //we can use application.yml messages
                     "NotFound" -> ResponseEntity.notFound().build()
                     else -> throw RuntimeException("")
                 }
