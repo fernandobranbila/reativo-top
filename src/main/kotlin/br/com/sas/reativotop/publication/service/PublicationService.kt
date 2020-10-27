@@ -12,13 +12,14 @@ import br.com.sas.reativotop.publication.model.Publication
 import br.com.sas.reativotop.publication.repository.PublicationRepository
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.reactive.awaitFirst
+import kotlinx.coroutines.reactive.awaitSingle
 import org.springframework.stereotype.Component
 
 @Component
 class PublicationService(private val publicationRepository: PublicationRepository) {
 
-    suspend fun save(publication: Publication): Publication {
-        return publicationRepository.save(publication).awaitFirst()
+    suspend fun save(publication: Publication) {
+        publicationRepository.save(publication).awaitFirst()
     }
 
 /*    suspend fun findByTitle(title: String): Flow<Publication> {
@@ -40,10 +41,9 @@ class PublicationService(private val publicationRepository: PublicationRepositor
     }
 
     suspend fun test(title: String): Result<String, Exception> {
-        if (title.length == 3){
+        if (title.length == 3) {
             return Failure(NotFoundException(""))
-        }
-        else{
+        } else {
             return Success(title)
         }
 

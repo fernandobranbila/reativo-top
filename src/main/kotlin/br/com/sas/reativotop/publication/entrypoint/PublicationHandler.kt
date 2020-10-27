@@ -36,7 +36,6 @@ class PublicationHandler(private val publicationService: PublicationService,
         return ServerResponse.noContent().buildAndAwait()
     }
 
-
 /*
     suspend fun saveActivity(request: ServerRequest): ServerResponse {
 
