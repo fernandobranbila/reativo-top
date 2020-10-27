@@ -37,7 +37,7 @@ class PublicationService(private val publicationRepository: PublicationRepositor
             return Success(publicationRepository.findByTitle(a))
 
         } else {
-            return Failure(ForbiddenException("", ))
+            return Failure(ForbiddenException(""))
         }
     }
 
