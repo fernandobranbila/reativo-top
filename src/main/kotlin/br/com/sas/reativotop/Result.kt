@@ -14,3 +14,8 @@ inline fun <T, E> Result<T, E>.onFailure(block: (Failure<E>) -> Nothing): T = wh
     is Success<T> -> value
     is Failure<E> -> block(this)
 }
+
+fun <T, E> Result<T, E>.getOrNull() = when(this){
+    is Success<T> -> value
+    is Failure<E> -> null
+}

@@ -1,11 +1,8 @@
 package br.com.sas.reativotop.publication.service
 
-import br.com.sas.reativotop.Failure
-import br.com.sas.reativotop.Result
-import br.com.sas.reativotop.Success
+import br.com.sas.reativotop.*
 import br.com.sas.reativotop.exception.ForbiddenException
 import br.com.sas.reativotop.exception.NotFoundException
-import br.com.sas.reativotop.onFailure
 import br.com.sas.reativotop.publication.model.Activity
 import br.com.sas.reativotop.publication.model.Meet
 import br.com.sas.reativotop.publication.model.Publication
@@ -33,10 +30,14 @@ class PublicationService(private val publicationRepository: PublicationRepositor
             val test = publicationRepository.findByTitle(title)
             return Success(test)
         } else if (title.length >= 2 && title.length <= 4) {
+
+
             val a = test(title).onFailure { return it }
+
             return Success(publicationRepository.findByTitle(a))
+
         } else {
-            return Failure(ForbiddenException(""))
+            return Failure(ForbiddenException("", ))
         }
     }
 
