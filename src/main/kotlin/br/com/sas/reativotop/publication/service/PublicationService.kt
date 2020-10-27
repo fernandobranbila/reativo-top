@@ -1,19 +1,18 @@
 package br.com.sas.reativotop.publication.service
 
+import br.com.sas.reativotop.Failure
+import br.com.sas.reativotop.Result
+import br.com.sas.reativotop.Success
+import br.com.sas.reativotop.exception.ForbiddenException
+import br.com.sas.reativotop.exception.NotFoundException
+import br.com.sas.reativotop.onFailure
 import br.com.sas.reativotop.publication.model.Activity
 import br.com.sas.reativotop.publication.model.Meet
 import br.com.sas.reativotop.publication.model.Publication
-import br.com.sas.reativotop.publication.model.PublicationError
 import br.com.sas.reativotop.publication.repository.PublicationRepository
-import com.github.michaelbull.result.Err
-import com.github.michaelbull.result.Ok
-import com.github.michaelbull.result.Result
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.reactive.awaitFirst
 import org.springframework.stereotype.Component
-import java.lang.Exception
-import java.lang.IllegalArgumentException
-import java.lang.RuntimeException
 
 @Component
 class PublicationService(private val publicationRepository: PublicationRepository) {
@@ -28,16 +27,26 @@ class PublicationService(private val publicationRepository: PublicationRepositor
 
     }*/
 
-    suspend fun findByTitle(title: String): Result<Flow<Publication>, PublicationError> {
-        if (title.length >= 6) { //batata
+    suspend fun findByTitle(title: String): Result<Flow<Publication>, Exception> {
+        if (title.length >= 6) {
             val test = publicationRepository.findByTitle(title)
-            return Ok(test)
-        } else if (title.length >= 2 && title.length <= 4){
-            return Err(PublicationError("BadRequest"))
+            return Success(test)
+        } else if (title.length >= 2 && title.length <= 4) {
+            val a = test(title).onFailure { return it }
+            return Success(publicationRepository.findByTitle(a))
+        } else {
+            return Failure(ForbiddenException(""))
         }
-        else {
-            return Err(PublicationError("NotFound"))
+    }
+
+    suspend fun test(title: String): Result<String, Exception> {
+        if (title.length == 3){
+            return Failure(NotFoundException(""))
         }
+        else{
+            return Success(title)
+        }
+
     }
 
 

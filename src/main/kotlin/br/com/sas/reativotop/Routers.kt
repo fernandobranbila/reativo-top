@@ -11,10 +11,8 @@ class Routers {
     @Bean
     fun routes(publicationHandler: PublicationHandler) =
             coRouter {
-                GET("/publications/{publicationId}", publicationHandler::getById)
-              //  GET("/publications", queryParam("title") { it != null}, publicationHandler::getByTitle)
+                GET("/publications", queryParam("title") { it != null}, publicationHandler::getByTitle)
                 POST("/publications", publicationHandler::savePublication)
-                //POST("/publications/{publicationId}/activities", publicationHandler::saveActivity)
             }
 
 }
